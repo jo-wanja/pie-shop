@@ -1,0 +1,183 @@
+DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="site.css" type="text/css">
+
+  <style media="screen">
+
+    @media only screen and (min-width:768px){
+      atricle{
+        width:350px;
+      }
+    }
+
+    .input-group{
+      margin-bottom:20px;}
+
+      .input-group input,
+      .input-group textarea,
+      .input-group select{
+        padding:10px;
+        border:solid 1px #6d3648;
+        border-radius:4px;
+        width:100%;
+      }
+
+
+input[type="submit"]{
+  border:solid 2px #313030;
+  border-radius:3px;
+  padding:8px;
+}
+
+input[type="reset"]
+{
+  background:transparent;
+  border:none;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+  </style>
+
+    <title>order's page</title>
+
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">HOME</a></li>
+          <li><a href="pies.html">PIES</a></li>
+          <li><a href="contact.html">contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <aside>
+        <img src="images/logo.png" alt="bethany's pie shop">
+
+      </aside>
+      <article>
+
+<h1>ORDER</h1>
+
+<div id="piess">
+<div class="pies">
+  <img src="" />
+  <div class="column">
+    <div class="title"></div>
+    <div class="price"> </div>
+  </div>
+  <p class="desc"></p>
+</div>
+</div>
+
+<form class="WE" action="http://localhost:7071/api/post" method="post">
+  <input type="hidden" name="pie-order" id="pie-order">
+  <input type="hidden" name="location" id="location">
+  <div class="input-group">
+    <div> <label for="first-name" id="first-name">First name</label></div>
+   <div><input type="text" name="first-name" id="first-name"></div>
+  </div>
+
+  <div class="input-group">
+    <div> <label for="last-name" id="last-name">Last name</label></div>
+   <div><input type="text" name="last-name" id="last-name"></div>
+  </div>
+
+  <div class="input-group">
+    <div> <label for="Address" id="Address">Address</label></div>
+   <div><input type="text" name="Address" id="Address"></div>
+  </div>
+
+  <div class="input-group">
+    <div> <label for="county">County</label></div>
+
+     <select name="County" id="County">
+       <option value="selected">select one</option>
+       <option value="nakuru">Nakuru</option>
+       <option value="bomet">Bomet</option>
+       <option value="kisii">Kisii</option>
+     </select>
+  </div>
+
+  <div class="input-group">
+    <div> <label for="comments">Comments</label></div>
+   <div><textarea name="comments"id="comments" rows="8" cols="80"></textarea>
+  </div>
+</div>
+
+<input type="reset" name="reset" value="reset">
+<input type="submit" name="submit" value="submit">
+
+</form>
+
+        </article>
+
+      </main>
+      <footer>
+        <nav>
+          <ul>
+            <li><a href="/">HOME</a></li>
+            <li><a href="pies.html">PIES</a></li>
+            <li><a href="contact.html">contact</a></li>
+          </ul>
+        </nav>
+      </footer>
+  </body>
+
+<script type="text/javascript">
+  window.addEventListener("DOMContentLoaded",function(e){
+let locationbox = document.querySelector("#location");
+
+let location  ={
+  latitude: "unknown",
+  longitude: "unknown"
+};
+
+window.navigator.geolocation.getCurrentPosition(
+function(position){
+location={
+  latitude:position.coords.latitude,
+  longitude:position.coords.longitude
+};
+locationbox.value= JSON.stringify(location);
+},
+
+function(error){
+
+  locationbox.value= JSON.stringify(location);
+
+}
+);
+
+const order= localStorage.getItem("order");
+if (order){
+  const pieOrder= JSON.parse(order);
+  const orderInput= document.querySelector("#pie-order");
+  orderInput.value= order;
+
+
+  const pie= document.querySelector(".pies");
+  const title = pie.querySelector(".title");
+  const price = pie.querySelector(".price");
+  const desc = pie.querySelector(".desc");
+
+  title.innerText = pieOrder.title;
+  price.innerText = pieOrder.price;
+  desc.innerText = pieOrder.desc;
+
+  const img = pie.querySelector("img");
+  img.setAttribute("src", `images/${pieOrder.id}.png`);
+  img.setAttribute("alt", pieOrder.title);
+}
+
+
+
+
+  });
+</script>
+
+</html>
